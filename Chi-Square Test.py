@@ -1,12 +1,10 @@
 #This is a Chi-Squared Test Python Program.
-#Accepted distribution functions are: Geometric Distribution
-
-#confirm_inputs = ("yes" , "no" , "y" , "n" )\
+#Currently accepted distribution functions are: Geometric Distribution
 
 test = (69,32,17,12,9,11)
 
 def Geo(p,r):
-    'Geometric Distribution'
+    'Geometric Distribution function'
     geo_array = ()
     for a in range (1, r + 1 , 1):
         geo_pn = ((1-p)**(a-1))*(p)
@@ -14,25 +12,20 @@ def Geo(p,r):
     return geo_array
 
 def E_chi(total, a):
-    'Expected Value'
+    'Expected Value function'
     new_tuple = ()
     for element in a:
-        new_tuple = new_tuple + ((total * element),)
-    for y in range (1, len(a)):
-        if new_tuple[y - 1] < 5:
-            print(str(new_tuple[y]) + " < 5, chi_squared not valid for small E_i.")
-            store_value = y
-            break
-    new_list = list(new_tuple)
-    for n in range(store_value, len(a) + 1):
-        print(n)
-        new_list = new_list.pop(new_list[n])
-    new_list.extend([total - sum(new_list)])
-                
-    return new_list
+        if (total * element) >= 5: 
+            new_tuple = new_tuple + ((total * element),)
+        else:
+            print()
+            print(str(total * element) + " < 5, chi_squared not valid for small E_i.")
+            new_tuple = new_tuple + ((total - sum(new_tuple)),)
+            break    
+    return new_tuple
 
-def chi_squared():
-    'Chi-squared test'
+def chi_square():
+    'Chi-Square test function'
     while True:
         print("Please enter the observed values, O_i when prompted below.")
         print()
@@ -40,18 +33,18 @@ def chi_squared():
         print()
         print(x)
         print()
-        print("Is this the correct input?")
+        print("Is this the correct input? y/n")
         print()
         ans = input()
 
-        if ans.lower() == ("no" or "n"):
+        if ans.lower() == "n":
             print("Please reenter your value.")
+            print()
             continue
-        elif ans.lower() == ("yes" or "no" or "y" or "n"):
-            print("Please enter yes or no only.")
-            continue
-        else:
+        elif ans.lower() == "y":
             break
+        else:
+            continue
 
     print()
 
@@ -62,29 +55,26 @@ def chi_squared():
         print()
         print(y)
         print()
-        print("Is this the correct input?")
+        print("Is this the correct input? y/n")
         print()
         ans = input()
 
         if len(y) != len(x):
             print("Number of E_i is different from number of O_i. Please reenter your E_i values.")
             continue
-        elif ans.lower() == ("no" or "n"):
+        elif ans.lower() == "n":
             print("Please reenter your value.")
+            print()
             continue
-        elif ans.lower() == ("yes" or "no" or "y" or "n"):
-            print("Please enter yes or no only.")
-            continue
-        else:
+        elif ans.lower() == "y":
             break
+        else:
+            continue
 
     final_array = ()
 
-    for a in x:
-        for b in y:
-            chi_squared = ((a-b)**2)/b
-            final_array = final_array + (chi_squared, )
-            break
-        break
+    for a, b in zip(x,y):
+        chi_squared = ((a-b)**2)/b
+        final_array = final_array + (chi_squared, )
 
-    print(final_array)
+    return(sum(final_array))
